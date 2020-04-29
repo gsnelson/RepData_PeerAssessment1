@@ -261,7 +261,7 @@ weekend_steps_median <- median(day_type$weekend$steps)
 
 ## plot the mean steps by interval by day type
 ## Note: I chose to convert the interval numbers to hourly time rather than
-## forcingthe reader to work it out for themselves
+## forcing the reader to work it out for themselves
 ggplot(day_type_by_interval, aes(x = interval, y = steps)) +
 	geom_line(lwd = 1, color = "dodgerblue") +
 	facet_grid(day_type ~ .) +
