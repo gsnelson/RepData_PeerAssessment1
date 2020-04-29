@@ -7,7 +7,8 @@ output:
     keep_md: true
 ---
 
-``` {r load libraries}
+
+```r
 ## load required libraries
 library(ggplot2)
 library(mice)
@@ -16,7 +17,8 @@ library(VIM)
 
 ## 1. Loading and preprocessing the data
 
-```{r load prep}
+
+```r
 ## download dataset
 fileURL <-
 	"https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -40,12 +42,27 @@ df <- read.csv(
 
 ## display dataset characteristics
 dim(df)
+```
+
+```
+## [1] 17568     3
+```
+
+```r
 str(df)
+```
+
+```
+## 'data.frame':	17568 obs. of  3 variables:
+##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ date    : Date, format: "2012-10-01" "2012-10-01" "2012-10-01" "2012-10-01" ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
 ## 2. What is mean total number of steps taken per day?
 
-```{r daily mean}
+
+```r
 ## aggregate steps by day
 total_by_day <-
 	aggregate(x = df$steps,
@@ -64,12 +81,19 @@ ggplot(total_by_day, aes(x = steps)) +
 	ylab("") + ggtitle("Distribution of Daily Step Totals Over Observation Period\n(Missing Values Ignored)")
 ```
 
+```
+## Warning: Removed 8 rows containing non-finite values (stat_bin).
+```
 
-*The mean daily steps for the observation period was ``r I(prettyNum(round(steps_mean,2),big.mark=","))``. The median of daily steps was ``r I(prettyNum(steps_median, big.mark = ","))``.*
+![](PA1_template_files/figure-html/daily mean-1.png)<!-- -->
+
+
+*The mean daily steps for the observation period was `10,766.19`. The median of daily steps was `10,765`.*
 
 
 ## 3. What is the average daily activity pattern?
-```{r average daily}
+
+```r
 ## compute the mean step count by interval
 total_by_interval <-
 	aggregate(df$steps, by = list(df$interval), na.rm = TRUE, mean)
@@ -115,7 +139,10 @@ abline(
 )
 ```
 
-```{r max steps time, echo = TRUE, results = "hide"}
+![](PA1_template_files/figure-html/average daily-1.png)<!-- -->
+
+
+```r
 ## determine the interval with the largest mean step count
 ## compute the time of day based on that interval number
 max_interval <-
@@ -138,31 +165,41 @@ if (max_interval < 1200) {
 		), 12, 16), "PM")
 }
 ```
-*On average over the observation period, the most steps, ``r I(prettyNum(round(max_steps_at_interval, 0), big.mark=","))``, were taken during the five minute period beginning at ``r max_time`` each day.*
+*On average over the observation period, the most steps, `206`, were taken during the five minute period beginning at `08:35 AM` each day.*
 
 
 ## 4. Imputing missing values
 
 
-``` {r missing values, echo = TRUE, results = "hide"}
+
+```r
 ## compute total number of rows in the dataframe, the number of missing values and percentage
 num_rows <- nrow(df)
 num_NA <- sum(is.na(df$steps))
 pct_NA <- (num_NA / num_rows) * 100
 ```
-The source dataset contains a total of ``r I(prettyNum(num_rows, big.mark = ","))`` observations. Of those, ``r I(prettyNum(num_NA, big.mark = ","))`` observations contain missing (**NA**) values or ``r round(pct_NA, 2)`%` of the total. As shown in the graphic below, all **NA** values appear in the `steps` variable:
+The source dataset contains a total of `17,568` observations. Of those, `2,304` observations contain missing (**NA**) values or `13.11%` of the total. As shown in the graphic below, all **NA** values appear in the `steps` variable:
 
-``` {r pattern/marginplot, results = "hide"}
+
+```r
 ## use plotting functions from the mice & VIM libraries to visualize missing values
 md.pattern(df, plot = TRUE)
+```
+
+![](PA1_template_files/figure-html/pattern/marginplot-1.png)<!-- -->
+
+```r
 marginplot(df[, c("date", "steps")])
 ```
 
-As the chart above illustrates, the occurence of the ``r I(prettyNum(num_NA, big.mark = ","))`` missing values were limited to eight specific days within the observation period (`24` hours x `60` minutes ÷ `5` minute intervals = `288` intervals per day x `8` days = `2,304` total missing values) In other words, on the days when measurements were taken, they were 100% complete and vice-versa.
+![](PA1_template_files/figure-html/pattern/marginplot-2.png)<!-- -->
+
+As the chart above illustrates, the occurence of the `2,304` missing values were limited to eight specific days within the observation period (`24` hours x `60` minutes ÷ `5` minute intervals = `288` intervals per day x `8` days = `2,304` total missing values) In other words, on the days when measurements were taken, they were 100% complete and vice-versa.
 
 For this analysis, I've chosen to impute missing values by taking the mean step values computed for each five minute interval (computed in Step 3 above). This approach seems more reasonable than simply dropping the observations with missing values.  Because of the frequency of the data collection (5 minute intervals), using the interval mean may be as accurate as applying more advanced regression or means matching methodologies.
 
-``` {r mean interval}
+
+```r
 ## replace missing values with the mean step values from above (computed by 
 ## ignoring missing values
 NA_df <- subset(df, is.na(df$steps))
@@ -174,9 +211,14 @@ imputed_df <- rbind(noNAs_df, NA_df)
 sum(is.na(imputed_df))
 ```
 
+```
+## [1] 0
+```
+
 *All missing values have been accounted for.*
 
-``` {r comparative histogram}
+
+```r
 ## plot histograms in two-panels to illustrate the distribution of daily step
 ## totals when missing values are ignored versus imputed
 imputed_total_by_day <-
@@ -202,19 +244,26 @@ ggplot(grouped_totals, aes(x = steps)) +
 	ylab("") + ggtitle("Distribution of Daily Step Totals Over Observation Period\n(Imputed vs. Ignored)")
 ```
 
-*The mean daily steps for the observation period was ``r I(prettyNum(round(imputed_steps_mean, 0),big.mark=","))``. The median of daily steps was ``r I(prettyNum(imputed_steps_median, big.mark = ","))``.*
+```
+## Warning: Removed 8 rows containing non-finite values (stat_bin).
+```
+
+![](PA1_template_files/figure-html/comparative histogram-1.png)<!-- -->
+
+*The mean daily steps for the observation period was `10,766`. The median of daily steps was `10,762`.*
 
 
 | Data Type | Mean | Median |
 | :------- | :------ | :---- |
-| NA's Ignored | `r I(prettyNum(round(steps_mean, 0),big.mark=","))` | `r I(prettyNum(steps_median, big.mark = ","))` |
-| NA's Imputed | `r I(prettyNum(round(imputed_steps_mean, 0),big.mark=","))` | `r I(prettyNum(imputed_steps_median, big.mark = ","))` |
+| NA's Ignored | 10,766 | 10,765 |
+| NA's Imputed | 10,766 | 10,762 |
 
 As mentioned above, there were eight days of the sixty-one day observation period when step counts weren't collected. As part of this analysis, the missing values for those missing days were imputed using the mean step counts from the other fifty-three days where counts were 100% collected. This means there is little likelyhood of there being large variations in the mean and median of the imputed values versus the mean and median of the actual values. As the table above confirms, there is no difference in mean and only a small difference in median.
 
 ## 5. Are there differences in activity patterns between weekdays and weekends?
 
-``` {r week/weekend analysis}
+
+```r
 ## make a copy of the imputed dataframe
 day_of_week_df <- data.frame(imputed_df)
 
@@ -275,13 +324,16 @@ ggplot(day_type_by_interval, aes(x = interval, y = steps)) +
 	xlab("Time of Day") + ylab("Number of Steps")
 ```
 
+![](PA1_template_files/figure-html/week/weekend analysis-1.png)<!-- -->
+
 
 
 | Day Type | Mean | Median |
 | :------- | :------ | :---- |
-| Weekday  | `r I(prettyNum(round(weekday_steps_mean, 0), big.mark = ","))` | `r I(prettyNum(weekday_steps_median, big.mark = ","))` |
-| Weekend  | `r I(prettyNum(round(weekend_steps_mean, 0), big.mark = ","))` | `r I(prettyNum(weekend_steps_median, big.mark = ","))` |
+| Weekday  | 10,255 | 10,762 |
+| Weekend  | 12,201 | 11,646 |
 
-``` {r cleanup}
+
+```r
 rm(list = ls())
 ```
