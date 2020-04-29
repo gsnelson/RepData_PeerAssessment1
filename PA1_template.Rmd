@@ -3,9 +3,16 @@ title: "Reproducible Research: Peer Assessment 1"
 author: "Gordon Scott Nelson"
 date: "4/24/2020"
 output: 
-  html_document:
-    keep_md: true
+  html_document: 
+    keep_md: yes
 ---
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set( fig.path = "figs/fig-")
+
+```
 
 ``` {r load libraries}
 ## load required libraries

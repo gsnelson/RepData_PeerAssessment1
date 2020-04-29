@@ -3,16 +3,65 @@ title: "Reproducible Research: Peer Assessment 1"
 author: "Gordon Scott Nelson"
 date: "4/24/2020"
 output: 
-  html_document:
-    keep_md: true
+  html_document: 
+    keep_md: yes
 ---
+
 
 
 ```r
 ## load required libraries
 library(ggplot2)
 library(mice)
+```
+
+```
+## 
+## Attaching package: 'mice'
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     cbind, rbind
+```
+
+```r
 library(VIM)
+```
+
+```
+## Loading required package: colorspace
+```
+
+```
+## Loading required package: grid
+```
+
+```
+## Loading required package: data.table
+```
+
+```
+## VIM is ready to use. 
+##  Since version 4.0.0 the GUI is in its own package VIMGUI.
+## 
+##           Please use the package to use the new (and old) GUI.
+```
+
+```
+## Suggestions and bug-reports can be submitted at: https://github.com/alexkowa/VIM/issues
+```
+
+```
+## 
+## Attaching package: 'VIM'
+```
+
+```
+## The following object is masked from 'package:datasets':
+## 
+##     sleep
 ```
 
 ## 1. Loading and preprocessing the data
@@ -55,7 +104,7 @@ str(df)
 ```
 ## 'data.frame':	17568 obs. of  3 variables:
 ##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Date, format: "2012-10-01" "2012-10-01" "2012-10-01" "2012-10-01" ...
+##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
@@ -85,7 +134,7 @@ ggplot(total_by_day, aes(x = steps)) +
 ## Warning: Removed 8 rows containing non-finite values (stat_bin).
 ```
 
-![](PA1_template_files/figure-html/daily mean-1.png)<!-- -->
+![](figs/fig-daily mean-1.png)<!-- -->
 
 
 *The mean daily steps for the observation period was `10,766.19`. The median of daily steps was `10,765`.*
@@ -139,7 +188,7 @@ abline(
 )
 ```
 
-![](PA1_template_files/figure-html/average daily-1.png)<!-- -->
+![](figs/fig-average daily-1.png)<!-- -->
 
 
 ```r
@@ -186,13 +235,13 @@ The source dataset contains a total of `17,568` observations. Of those, `2,304` 
 md.pattern(df, plot = TRUE)
 ```
 
-![](PA1_template_files/figure-html/pattern/marginplot-1.png)<!-- -->
+![](figs/fig-pattern/marginplot-1.png)<!-- -->
 
 ```r
 marginplot(df[, c("date", "steps")])
 ```
 
-![](PA1_template_files/figure-html/pattern/marginplot-2.png)<!-- -->
+![](figs/fig-pattern/marginplot-2.png)<!-- -->
 
 As the chart above illustrates, the occurence of the `2,304` missing values were limited to eight specific days within the observation period (`24` hours x `60` minutes ÷ `5` minute intervals = `288` intervals per day x `8` days = `2,304` total missing values) In other words, on the days when measurements were taken, they were 100% complete and vice-versa.
 
@@ -248,7 +297,7 @@ ggplot(grouped_totals, aes(x = steps)) +
 ## Warning: Removed 8 rows containing non-finite values (stat_bin).
 ```
 
-![](PA1_template_files/figure-html/comparative histogram-1.png)<!-- -->
+![](figs/fig-comparative histogram-1.png)<!-- -->
 
 *The mean daily steps for the observation period was `10,766`. The median of daily steps was `10,762`.*
 
@@ -324,7 +373,7 @@ ggplot(day_type_by_interval, aes(x = interval, y = steps)) +
 	xlab("Time of Day") + ylab("Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/week/weekend analysis-1.png)<!-- -->
+![](figs/fig-week/weekend analysis-1.png)<!-- -->
 
 
 

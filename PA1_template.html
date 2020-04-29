@@ -371,8 +371,26 @@ summary {
 
 <pre class="r"><code>## load required libraries
 library(ggplot2)
-library(mice)
-library(VIM)</code></pre>
+library(mice)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;mice&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     cbind, rbind</code></pre>
+<pre class="r"><code>library(VIM)</code></pre>
+<pre><code>## Loading required package: colorspace</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<pre><code>## Loading required package: data.table</code></pre>
+<pre><code>## VIM is ready to use. 
+##  Since version 4.0.0 the GUI is in its own package VIMGUI.
+## 
+##           Please use the package to use the new (and old) GUI.</code></pre>
+<pre><code>## Suggestions and bug-reports can be submitted at: https://github.com/alexkowa/VIM/issues</code></pre>
+<pre><code>## 
+## Attaching package: &#39;VIM&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:datasets&#39;:
+## 
+##     sleep</code></pre>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>1. Loading and preprocessing the data</h2>
 <pre class="r"><code>## download dataset
@@ -402,7 +420,7 @@ dim(df)</code></pre>
 <pre class="r"><code>str(df)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    17568 obs. of  3 variables:
 ##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Date, format: &quot;2012-10-01&quot; &quot;2012-10-01&quot; &quot;2012-10-01&quot; &quot;2012-10-01&quot; ...
+##  $ date    : Date, format: &quot;2012-10-01&quot; &quot;2012-10-01&quot; ...
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...</code></pre>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
