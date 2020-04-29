@@ -1,7 +1,7 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
 author: "Gordon Scott Nelson"
-date: "4/24/2020"
+date: "4/28/2020"
 output: 
   html_document: 
     keep_md: yes
@@ -290,5 +290,6 @@ ggplot(day_type_by_interval, aes(x = interval, y = steps)) +
 | Weekend  | `r I(prettyNum(round(weekend_steps_mean, 0), big.mark = ","))` | `r I(prettyNum(weekend_steps_median, big.mark = ","))` |
 
 ``` {r cleanup}
+## clean up environment
 rm(list = ls())
 ```
