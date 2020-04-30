@@ -1,7 +1,7 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
 author: "Gordon Scott Nelson"
-date: "4/28/2020"
+date: "4/30/2020"
 output: 
   html_document: 
     keep_md: yes
